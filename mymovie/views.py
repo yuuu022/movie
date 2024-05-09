@@ -67,7 +67,7 @@ def searchMovie(request):
     context = {
         'movieFilter': movieFilter
     }
-    return render(request, 'searchMovie.html', context)
+    return render(request, 'searchMovie.html', locals())
 
 # request.method == "POST" 用於處理需要提交資料並可能修改伺服器狀態的請求(處理表單提交等資料的傳送)
 # request.method == "GET"  用於從伺服器獲取資源的請求，且通常用於獲取較小且不敏感的資料。
