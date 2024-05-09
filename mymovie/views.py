@@ -56,16 +56,32 @@ def editMovie(request, movie_id):
     else:
         return redirect('/')
 
-#會員中心
+# 搜尋電影
+from .filters import MovieFilter
+
+def searchMovie(request):
+    movies = Movie.objects.all()
+    movieFilter = MovieFilter(queryset=movies)
+    if request.method == "POST":
+        movieFilter = MovieFilter(request.POST, queryset=movies)
+    context = {
+        'movieFilter': movieFilter
+    }
+    return render(request, 'searchMovie.html', context)
+
+# request.method == "POST" 用於處理需要提交資料並可能修改伺服器狀態的請求(處理表單提交等資料的傳送)
+# request.method == "GET"  用於從伺服器獲取資源的請求，且通常用於獲取較小且不敏感的資料。
+
+# 會員中心
 
 
 #---------------------------------------------------------------------------------------------------------------
 # User
 
-#電影資訊
-def movieInformation(request,movie_id)
+# 電影資訊
+# def movieInformation(request,movie_id)
 
-#快速購票
+# 快速購票
 
 
 
