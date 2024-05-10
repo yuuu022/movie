@@ -16,7 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from mymovie import views as mv 
+from mymovie import views as mv
 
 
 urlpatterns = [
@@ -34,13 +34,13 @@ urlpatterns = [
     path('searchMovie/',mv.searchMovie , name='searchMovie'),
     # path('/',mv. , name=''),
     # path('/',mv. , name=''),
-    
-    
+
+
     # 會員購票紀錄
     # path('/',mv. , name=''),
 
     # 會員資料
-
+    path('searchMember/',mv.searchMember, name='searchMember'),
 
 
     #-----------------------------------------------------------

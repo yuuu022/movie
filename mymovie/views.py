@@ -49,7 +49,7 @@ def editMovie(request, movie_id):
             form = MovieForm(request.POST, instance=movie_instance)
             if form.is_valid():
                 form.save()
-                return redirect('/')  
+                return redirect('/')
         else:
             form = MovieForm(instance=movie_instance)
         return render(request, 'editMovie.html', {'form': form, 'movie_instance': movie_instance})
@@ -57,7 +57,7 @@ def editMovie(request, movie_id):
         return redirect('/')
 
 # 搜尋電影
-from .filters import MovieFilter
+from .filters import MovieFilter,MemberFilter
 
 def searchMovie(request):
     movies = Movie.objects.all()
@@ -73,6 +73,15 @@ def searchMovie(request):
 # request.method == "GET"  用於從伺服器獲取資源的請求，且通常用於獲取較小且不敏感的資料。
 
 # 會員中心
+def searchMember(request):
+    members = Member_data.objects.all()
+    memberFilter = MemberFilter(queryset=members)
+    if request.method == "POST":
+        MovieFilter = MemberFilter(request.POST, queryset=members)
+    context = {
+        'memberFilter': memberFilter
+    }
+    return render(request, 'searchMember.html', locals())
 
 
 #---------------------------------------------------------------------------------------------------------------
@@ -82,6 +91,3 @@ def searchMovie(request):
 # def movieInformation(request,movie_id)
 
 # 快速購票
-
-
-
