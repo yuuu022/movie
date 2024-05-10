@@ -46,6 +46,7 @@ urlpatterns = [
     #-----------------------------------------------------------
     # User
     # 電影資訊
+	# path('movieInformation/',mv.movieInformation, name='movieInformation'),
 
 
     # 快速購票
