@@ -77,11 +77,11 @@ def searchMember(request):
     members = Member_data.objects.all()
     memberFilter = MemberFilter(queryset=members)
     if request.method == "POST":
-        MovieFilter = MemberFilter(request.POST, queryset=members)
+        memberFilter = MemberFilter(request.POST, queryset=members)
     context = {
         'memberFilter': memberFilter
     }
-    return render(request, 'searchMember.html', locals())
+    return render(request, 'manager_searchMember.html', locals())
 
 
 #---------------------------------------------------------------------------------------------------------------

@@ -21,7 +21,7 @@ class Member_data(models.Model):
 # 場次
 class Session(models.Model):
     session_number = models.AutoField(primary_key=True)
-    movie = models.ForeignKey('Movie', on_delete=models.CASCADE)    
+    movie = models.ForeignKey('Movie', on_delete=models.CASCADE)
     session = models.CharField(max_length=200)
 
     def __str__(self):
@@ -37,7 +37,7 @@ class Ticket(models.Model):
     ticket_member = models.ForeignKey('Member_data',on_delete=models.CASCADE )   # 删除了一个 Member_data 的資料，所有和 member 有關的紀錄也會删除
     session_id = models.ForeignKey('Session',on_delete=models.CASCADE)
     ticket_amount = models.PositiveIntegerField()
-    payment_method = models.CharField(max_length=100, choices=CHOICES)  
+    payment_method = models.CharField(max_length=100, choices=CHOICES)
 #----------------------------------------------------------------------------------------------------------------------
 # 電影資訊
 class Movie(models.Model):
