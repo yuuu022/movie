@@ -1,1 +1,44 @@
-add
+
+{% block content%}
+<form action="/addMovie/" method="post">
+    {% csrf_token %}
+    <div class="movie_name">
+        <label for="movie_name">書名： </label>
+        <input type="text" name="movie_name">
+    </div>
+    <div class="date">
+        <label for="date">日期： </label>
+        <input type="date" name="date" id="">
+    </div>
+    <div class="show">
+        <label for="show">類型： </label>
+        <select name='show'>
+            {% for choices in CHOICES %}
+            <option value="{{choices}}">{{choices}}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div>
+        <label for="director">導演：</label>
+        <input type="text" name="director">
+    </div>
+    <div>
+        <label for="actor">演員：</label>
+        <input type="text" name="actor">
+    </div>
+    <div>
+        <label for="type">類型：</label>
+        <input type="text" name="type">
+    </div>
+    <div>
+        <label for="length">長度：</label>
+        <input type="text" name="length">
+    </div>
+    <div>
+        <label for="picture">圖片：</label>
+        <input type="text" name="picture">
+    </div>
+    <input type="submit" class="btn btn-outline-success" value="新增">
+    <input type="reset" class="btn btn-outline-info" value="清除重填">
+</form>
+{% endblock content %}

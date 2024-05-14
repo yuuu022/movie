@@ -1,1 +1,31 @@
-search
+
+{% block headmessage %}
+<h2>搜尋電影</h2>
+{% endblock headmessage %}
+{% block content %}
+<form method="POST">
+{% csrf_token %}
+    <p>電影  {{ movieFilter.form.movie_name }} 日期<input type="month"   {{ movieFilter.form.date }}  類型 {{ movieFilter.form.type }}  <input type="submit" class="btn btn-outline-success" value="查詢" /></p>
+
+
+
+</form>
+<br />
+<table>
+<thead>
+    <th>電影</th>
+    <th>上映日期</th>
+    <th>類型</th>
+</thead>
+<tbody>
+    
+    {% for movie in movieFilter.qs %}
+    <tr>
+    <td>{{ movie.movie_name }}</td>
+    <td>{{ movie.date }}</td>
+    <td>{{ movie.type }}</td>
+    </tr>
+    {% endfor %}
+</tbody>
+</table>
+{% endblock %}

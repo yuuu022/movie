@@ -7,7 +7,7 @@ from mymovie.models import Member_data, Ticket, Movie, Staff_data
 # 新增電影
 def addMovie(request):
     if request.method=='POST':
-        movie = request.POST.get('movie')
+        movie_no = request.POST.get('movie_no')
         movie_name = request.POST.get('movie_name')
         date = request.POST.get('date')
         show = request.POST.get('show')
@@ -16,9 +16,9 @@ def addMovie(request):
         type = request.POST.get('type')
         length = request.POST.get('length')
         picture = request.POST.get('picture')
-        change_staff = request.POST.get('change_staff')
+        # change_staff = request.POST.get('change_staff')
         Movie.objects.create(
-            movie=movie,
+            movie_no=movie_no,
             movie_name=movie_name,
             date=date,
             show=show,
@@ -27,7 +27,8 @@ def addMovie(request):
             type=type,
             length=length,
             picture=picture,
-            change_staff=change_staff)
+            # change_staff=change_staff
+            )
         message='電影新增成功'
     else:
         return render(request, 'addMovie.html',locals())

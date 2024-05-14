@@ -3,19 +3,19 @@ from .models import Member_data, Ticket, Session, Movie, Staff_data
 # Register your models here.
 
 class MemberAdmin(admin.ModelAdmin):
-    list_display = ('member','member_account','gmail','phone_number')
+    list_display = ('member_no','member_account','gmail','phone_number')
 
 class TicketAdmin(admin.ModelAdmin):
-    list_display = ('number','ticket_member','session_id','ticket_amount','payment_method')
+    list_display = ('ticket_no','ticket_member','session_id','ticket_amount','payment_method')
 
 class SessionAdmin(admin.ModelAdmin):
-    list_display = ('session_number','movie','session')
+    list_display = ('session_no','movie','session')
 
 class MovieAdmin(admin.ModelAdmin):
-    list_display = ('movie','movie_name','date','show','director','actor','type','length','change_staff')
+    list_display = ('movie_no','movie_name','date','show','director','actor','type','length','change_staff')
 
 class StaffAdmin(admin.ModelAdmin):
-    list_display = ('staff','staff_password','staff_name','staff_department')
+    list_display = ('staff_no','staff_password','staff_name','staff_department')
 
 
 

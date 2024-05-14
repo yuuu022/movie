@@ -1,1 +1,37 @@
-edit
+
+<form action="/editMovie/{{ movie_instance.movie_id }}" method="post">
+
+    {% csrf_token %}
+    <div class="date"> 
+        <label for="date">上映日期： </label>
+        <input type="text" name="date" id="date" value="{{ movie_instance.date }}">
+    </div>
+    <div class="show">
+        <select name="show" id="show">
+            {% for choice in movie_instance.CHOICES %}
+                <option value="{{ choice.0 }}" {% if choice.0 == movie_instance.show %} selected {% endif %}>{{ choice.1 }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="director">
+        <label for="director">導演： </label>
+        <input type="text" name="director" id="director" value="{{ movie_instance.director }}">
+    </div>
+    <div class="actor">
+        <label for="actor">演員： </label>
+        <input type="text" name="actor" id="actor" value="{{ movie_instance.actor }}">
+    </div>
+    <div class="type"> 
+        <label for="type">類型： </label>
+        <input type="text" name="type" id="type" value="{{ movie_instance.type }}">
+    </div>
+    <div class="length">
+        <label for="length">劇情片長： </label>
+        <input type="text" name="length" id="length" value="{{ movie_instance.length }}">
+    </div>
+    <div class="picture">
+        <label for="picture">圖片： </label>
+        <input type="text" name="picture" id="picture" value="{{ movie_instance.picture }}">
+    </div><br>
+    <input type="submit" class="btn btn-outline-success" value="修改">
+</form>

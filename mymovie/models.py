@@ -8,7 +8,7 @@ from django.db import models
 #----------------------------------------------------------------------------------------------------------------------
 # 會員個人資料
 class Member_data(models.Model):
-    member = models.AutoField(primary_key=True)
+    member_no = models.AutoField(primary_key=True)
     member_account = models.CharField(max_length=200, unique=True)
     member_password = models.CharField(max_length=200)
     gmail = models.EmailField()
@@ -20,7 +20,7 @@ class Member_data(models.Model):
 #----------------------------------------------------------------------------------------------------------------------
 # 場次
 class Session(models.Model):
-    session_number = models.AutoField(primary_key=True)
+    session_no = models.AutoField(primary_key=True)
     movie = models.ForeignKey('Movie', on_delete=models.CASCADE)
     session = models.CharField(max_length=200)
 
@@ -33,7 +33,7 @@ class Ticket(models.Model):
         ('money', '現金'),
         ('credit_card', '信用卡')
     )
-    number = models.AutoField(primary_key=True)
+    ticket_no = models.AutoField(primary_key=True)
     ticket_member = models.ForeignKey('Member_data',on_delete=models.CASCADE )   # 删除了一个 Member_data 的資料，所有和 member 有關的紀錄也會删除
     session_id = models.ForeignKey('Session',on_delete=models.CASCADE)
     ticket_amount = models.PositiveIntegerField()
@@ -46,7 +46,7 @@ class Movie(models.Model):
         ('showing', '現正熱映'),
         ('removed','下架電影')
     )
-    movie = models.AutoField(primary_key=True)
+    movie_no = models.AutoField(primary_key=True)
     movie_name = models.CharField(max_length=200)
     date = models.DateField()
     show = models.CharField(max_length=200, choices=CHOICES)
@@ -65,7 +65,7 @@ class Staff_data(models.Model):
         ('it', 'IT部門'),
         ('hr', '人事部門')
     )
-    staff = models.AutoField(primary_key=True)
+    staff_no = models.AutoField(primary_key=True)
     staff_password = models.CharField(max_length=200)
     staff_name = models.CharField(max_length=200)
     staff_department = models.CharField(max_length=200, choices=CHOICES)
