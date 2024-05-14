@@ -16,7 +16,7 @@ def addMovie(request):
         type = request.POST.get('type')
         length = request.POST.get('length')
         picture = request.POST.get('picture')
-        # change_staff = request.POST.get('change_staff')
+        change_staff = Staff_data.objects.get(staff_no=1)
         Movie.objects.create(
             movie_no=movie_no,
             movie_name=movie_name,
@@ -27,7 +27,7 @@ def addMovie(request):
             type=type,
             length=length,
             picture=picture,
-            # change_staff=change_staff
+            change_staff=change_staff
             )
         message='電影新增成功'
     else:
