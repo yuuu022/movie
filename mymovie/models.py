@@ -9,8 +9,8 @@ from django.db import models
 # 會員個人資料
 class Member_data(models.Model):
     member_no = models.AutoField(primary_key=True)
-    member_account = models.CharField(max_length=200, unique=True)
-    member_password = models.CharField(max_length=200)
+    member_account = models.CharField(max_length=25, unique=True)
+    member_password = models.CharField(max_length=10)
     gmail = models.EmailField()
     phone_number = models.CharField(max_length=15)
 
