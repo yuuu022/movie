@@ -39,7 +39,7 @@ def deleteMovie(request, movie_id):
     movie = Movie.objects.get(pk=movie_id)
     if request.method == 'POST':
         movie.delete()
-        return redirect(' ') #<-  電影編輯頁面
+        return render(request,'searchMovie.html',locals()) #<-  電影編輯頁面
     return render(request, 'deleteMovie.html', {'movie': movie})
 
 # 編輯電影
