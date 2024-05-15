@@ -1,1 +1,35 @@
-show
+{% block content %}
+{% for c in movie %}
+{% if forloop.first %}
+{{ c.movie_name }}
+<table class="table table-hover">
+  <thead>
+    <tr background="#cccccc">
+        <th>上映日期</th>
+        <th>導演</th>
+        <th>演員</th>   
+        <th>類型</th>
+        <th>劇情片長</th>
+        <th>放映場次</th>
+        <th>圖片</th>
+    </tr>
+  </thead>
+{% endif %}
+  <tbody>
+    <tr background='{% cycle "#ffccff" "#ccffcc" %}'>
+      <td>{{ c.date }}</td>
+      <td>{{ c.show }}</td>
+      <td>{{ c.director }}</td>
+      <td>{{ c.actor }}</td>
+      <td>{{ c.type }}</td>
+      <td>{{ c.length }}</td>
+      <td>{{ c.picture }}</td>
+    </tr>
+  </tbody>
+{% if forloop.last %}
+</table>
+{% endif %}
+{% empty %}
+<h2>沒有任何回復</h2>
+{% endfor %}
+{% endblock content %}

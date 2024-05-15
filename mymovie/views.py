@@ -3,9 +3,9 @@ from mymovie.models import Member_data, Ticket, Movie, Staff_data
 
 
 # Manager
-
+# 新增電影
 def addMovie(request):
-    CHOICES = ('即將上映', '現正熱映','下架電影')
+    CHOICES = ('即將上映', '現正熱映')
     if request.method=='POST':
         movie_no = request.POST.get('movie_no')
         movie_name = request.POST.get('movie_name')
@@ -45,6 +45,7 @@ def deleteMovie(request, movie_id):
 # 編輯電影
 from .forms import MovieForm
 def editMovie(request, movie_id):
+    CHOICES = ('即將上映', '現正熱映','下架電影')
     if Movie.objects.filter(movie=movie_id).exists():
         movie_instance = Movie.objects.get(movie=movie_id)
         if request.method == 'POST':
@@ -57,6 +58,11 @@ def editMovie(request, movie_id):
         return render(request, 'editMovie.html', {'form': form, 'movie_instance': movie_instance})
     else:
         return redirect('/')
+    
+# 顯示電影
+def showMovie(request, movie_id):
+    movie = Movie.objects.all()
+    return render(request, 'showMovie.html', locals())
 
 # 搜尋電影
 from .filters import MovieFilter,MemberFilter
