@@ -107,3 +107,20 @@ def searchMemberDetails(request):
 # def movieInformation(request,movie_id)
 
 # 快速購票
+
+
+
+# 會員資訊****
+from django.http import Http404
+from django.contrib.auth.decorators import login_required
+# @login_required
+def lookMember(request, member_id):
+    try:
+        member = Member_data.objects.get(member_no=member_id)
+    except Member_data.DoesNotExist:
+        raise Http404("Member does not exist")
+    
+    if member.member_account != request.user:  # 这里假设成员的账户与当前登录用户的账户不匹配
+        raise Http404("You are not authorized to view this member")
+    context = {'lookMember': member}
+    return render(request, 'user_lookMember_user.html', context)

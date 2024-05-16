@@ -1,4 +1,4 @@
-
+{% extends 'base.html' %}
 <form action="/editMovie/{{ movie_instance.movie_id }}" method="post">
 
     {% csrf_token %}

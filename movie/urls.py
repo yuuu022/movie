@@ -40,7 +40,7 @@ urlpatterns = [
     # path('/',mv. , name=''),
 
     # 會員資料
-    path('searchMember/',mv.searchMember, name='searchMember'),
+    path('lookMember/<int:member_id>/',mv.lookMember, name='lookMember'),
     path('searchMemberDetails/',mv.searchMemberDetails, name='searchMemberDetails'),
     
 
