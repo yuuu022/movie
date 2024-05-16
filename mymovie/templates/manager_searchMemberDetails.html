@@ -1,0 +1,28 @@
+{% comment %} {% extends 'base.html' %} {% endcomment %}
+{% block headmessage %}
+<h2>會員資料</h2>
+{% endblock headmessage %} 
+{% block content %}
+<form method="post">
+  {% csrf_token %}
+  會員編號： <input {{ memberFilter.form.member }}>
+  <input type="submit" class="btn btn-outline-success" value="查詢" />
+</form>
+<br />
+<table class="table table-hover">
+  <thead>
+    <th>會員編號</th>
+    <th>電子信箱</th>
+    <th>手機號碼</th>
+  </thead>
+  <tbody>
+    {% for Member_data in MemberFilter.qs %}
+    <tr>
+      <td>{{ Member_data.member_no }}</td>
+      <td>{{ Member_data.gmail }}</td>
+      <td>{{ Member_data.phone_number }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %} 

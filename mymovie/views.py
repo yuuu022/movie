@@ -30,17 +30,17 @@ def addMovie(request):
             change_staff = staff_data_instance
             )
         message='電影新增成功'
-        return render(request, 'showMovie.html',locals())
+        return render(request, 'manager_showMovie.html',locals())
     else:
-        return render(request, 'addMovie.html',locals())
+        return render(request, 'manager_addMovie.html',locals())
 
 # 刪除電影
 def deleteMovie(request, movie_id):
     movie = Movie.objects.get(pk=movie_id)
     if request.method == 'POST':
         movie.delete()
-        return render(request,'searchMovie.html',locals()) #<-  電影編輯頁面
-    return render(request, 'deleteMovie.html', {'movie': movie})
+        return render(request,'manager_searchMovie.html',locals()) #<-  電影編輯頁面
+    return render(request, 'manager_deleteMovie.html', {'movie': movie})
 
 # 編輯電影
 from .forms import MovieForm
@@ -55,14 +55,14 @@ def editMovie(request, movie_id):
                 return redirect('/')
         else:
             form = MovieForm(instance=movie_instance)
-        return render(request, 'editMovie.html', {'form': form, 'movie_instance': movie_instance})
+        return render(request, 'manager_editMovie.html', {'form': form, 'movie_instance': movie_instance})
     else:
         return redirect('/')
     
 # 顯示電影
 def showMovie(request, movie_id):
     movie = Movie.objects.all()
-    return render(request, 'showMovie.html', locals())
+    return render(request, 'manager_showMovie.html', locals())
 
 # 搜尋電影
 from .filters import MovieFilter,MemberFilter
@@ -75,12 +75,12 @@ def searchMovie(request):
     context = {
         'movieFilter': movieFilter
     }
-    return render(request, 'searchMovie.html', locals())
+    return render(request, 'manager_searchMovie.html', locals())
 
 # request.method == "POST" 用於處理需要提交資料並可能修改伺服器狀態的請求(處理表單提交等資料的傳送)
 # request.method == "GET"  用於從伺服器獲取資源的請求，且通常用於獲取較小且不敏感的資料。
 
-# 會員中心
+# 會員資料
 def searchMember(request):
     members = Member_data.objects.all()
     memberFilter = MemberFilter(queryset=members)
@@ -91,7 +91,15 @@ def searchMember(request):
     }
     return render(request, 'manager_searchMember.html', locals())
 
-
+def searchMemberDetails(request):
+    members = Member_data.objects.all()
+    memberFilter = MemberFilter(queryset=members)
+    if request.method == "POST":
+        memberFilter = MemberFilter(request.POST, queryset=members)
+    context = {
+        'memberFilter': memberFilter
+    }
+    return render(request, 'manager_searchMemberDetails.html', locals())    
 #---------------------------------------------------------------------------------------------------------------
 # User
 

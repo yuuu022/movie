@@ -1,32 +1,13 @@
-<!-- {% extends 'base.html' %}
+{% comment %} {% extends 'base.html' %} {% endcomment %}
 {% block headmessage %}
 <h2>會員資料</h2>
-<a style='font-family:微軟正黑體;' href="/">回首頁</a>
-{% endblock headmessage %} {% block content %}
-<form method="Member_data">
+{% endblock headmessage %} 
+{% block content %}
+<form method="post">
   {% csrf_token %}
-  名稱：{{ memberFilter.form.member }} <br />
-  類型：{{bookFilter.form.genre }}<br />
-  作者：{{ bookFilter.form.author }}
-  <br />
+  會員編號： <input {{ memberFilter.form.member }}>
   <input type="submit" class="btn btn-outline-success" value="查詢" />
-  <input type="reset" class="btn btn-outline-info" value="清除重填" />
 </form>
 <br />
-<table class="table table-hover">
-  <thead>
-    <th>名稱</th>
-    <th>類型</th>
-    <th>作者</th>
-  </thead>
-  <tbody>
-    {% for book in bookFilter.qs %}
-    <tr>
-      <td>{{ book.title }}</td>
-      <td>{{ book.genre }}</td>
-      <td>{{ book.author }}</td>
-    </tr>
-    {% endfor %}
-  </tbody>
-</table>
-{% endblock %} -->
+
+{% endblock %} 

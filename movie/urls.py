@@ -41,6 +41,8 @@ urlpatterns = [
 
     # 會員資料
     path('searchMember/',mv.searchMember, name='searchMember'),
+    path('searchMemberDetails/',mv.searchMemberDetails, name='searchMemberDetails'),
+    
 
 
     #-----------------------------------------------------------
