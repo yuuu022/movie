@@ -41,6 +41,7 @@ urlpatterns = [
 
     # 會員資料
     path('lookMember/<int:member_id>/',mv.lookMember, name='lookMember'),
+    path('searchMember/',mv.searchMember, name='searchMember'),
     path('searchMemberDetails/',mv.searchMemberDetails, name='searchMemberDetails'),
     
 
@@ -52,7 +53,9 @@ urlpatterns = [
 
 
     # 快速購票
-
+    path('orderTicket/',mv.orderTicket, name='orderTicket'),
+    path('orderTicketConfirm/',mv.orderTicketConfirm, name='orderTicketConfirm'),
+    path('orderTicketRecord/',mv.orderTicketRecord, name='orderTicketRecord'),
 
     # 會員中心
 
