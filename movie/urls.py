@@ -30,9 +30,9 @@ urlpatterns = [
     # 電影處理
     path('addMovie/',mv.addMovie , name='addMovie'),
     path('editMovie/<int:movie_id>/', mv.editMovie, name='editMovie'),
-    path('deleteMovie/<int:movie_id>/',mv.deleteMovie , name='deleteMovie'),
+    path('deleteMovie/<int:movie_no>/',mv.deleteMovie , name='deleteMovie'),
     path('searchMovie/',mv.searchMovie , name='searchMovie'),
-    path('showMovie/<int:movie_id>/',mv.showMovie , name='showMovie'),
+    path('showMovie/<int:movie_no>/',mv.showMovie , name='showMovie'),
     # path('/',mv. , name=''),
 
 

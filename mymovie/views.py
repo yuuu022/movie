@@ -1,5 +1,5 @@
 from django.shortcuts import redirect, render
-from mymovie.models import Member_data, Ticket, Movie, Staff_data
+from mymovie.models import Member_data, Ticket, Movie, Staff_data, Session
 
 
 # Manager
@@ -35,12 +35,14 @@ def addMovie(request):
         return render(request, 'manager_addMovie.html',locals())
 
 # 刪除電影
-def deleteMovie(request, movie_id):
-    movie = Movie.objects.get(pk=movie_id)
-    if request.method == 'POST':
-        movie.delete()
-        return render(request,'manager_searchMovie.html',locals()) #<-  電影編輯頁面
-    return render(request, 'manager_deleteMovie.html', {'movie': movie})
+def deleteMovie(request, movie_no):
+    if movie_no:
+        try:
+            movie = Movie.objects.get(movie_no=movie_no)
+            movie.delete()
+        except:
+            pass
+    return redirect('/')
 
 # 編輯電影
 from .forms import MovieForm
@@ -60,8 +62,9 @@ def editMovie(request, movie_id):
         return redirect('/')
     
 # 顯示電影
-def showMovie(request, movie_id):
-    movie = Movie.objects.all()
+def showMovie(request, movie_no):
+    movie = Movie.objects.get(movie_no=movie_no)
+    ses = Session.objects.filter(movie=movie_no)
     return render(request, 'manager_showMovie.html', locals())
 
 # 搜尋電影
@@ -113,14 +116,14 @@ def searchMemberDetails(request):
 # 會員資訊****
 from django.http import Http404
 from django.contrib.auth.decorators import login_required
-# @login_required
+@login_required
 def lookMember(request, member_id):
     try:
         member = Member_data.objects.get(member_no=member_id)
     except Member_data.DoesNotExist:
         raise Http404("Member does not exist")
     
-    if member.member_account != request.user:  # 这里假设成员的账户与当前登录用户的账户不匹配
+    if member.member_account != request.user:  
         raise Http404("You are not authorized to view this member")
     context = {'lookMember': member}
-    return render(request, 'user_lookMember_user.html', context)
+    return render(request, 'user_lookMember_user.html', locals())

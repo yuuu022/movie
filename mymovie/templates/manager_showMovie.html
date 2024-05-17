@@ -1,8 +1,5 @@
 {% extends 'base.html' %}
 {% block content %}
-{% for c in movie %}
-{% if forloop.first %}
-{{ c.movie_name }}
 <table class="table table-hover">
   <thead>
     <tr background="#cccccc">
@@ -15,22 +12,22 @@
         <th>圖片</th>
     </tr>
   </thead>
-{% endif %}
+{{ movie.movie_name }}
   <tbody>
     <tr background='{% cycle "#ffccff" "#ccffcc" %}'>
-      <td>{{ c.date }}</td>
-      <td>{{ c.show }}</td>
-      <td>{{ c.director }}</td>
-      <td>{{ c.actor }}</td>
-      <td>{{ c.type }}</td>
-      <td>{{ c.length }}</td>
-      <td>{{ c.picture }}</td>
+      <td>{{ movie.date }}</td>
+      <td>{{ movie.director }}</td>
+      <td>{{ movie.actor }}</td>
+      <td>{{ movie.type }}</td>
+      <td>{{ movie.length }}</td>
+      <td>
+          {% for session in ses %}
+            <a>{{ session.session }}</a>
+          {% endfor %}
+      </td>
+      <td>{{ movie.picture }}</td>
+      <td>{{ movie.get_show_display  }}</td>
     </tr>
   </tbody>
-{% if forloop.last %}
 </table>
-{% endif %}
-{% empty %}
-<h2>沒有任何回復</h2>
-{% endfor %}
 {% endblock content %}
