@@ -21,6 +21,7 @@ from mymovie import views as mv
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', mv.home, name='home'),
     # 註冊、登入、忘記密碼
     # path('/',mv. , name=''),
 
@@ -38,7 +39,7 @@ urlpatterns = [
 
 
     # 會員購票紀錄
-    # path('/',mv. , name=''),
+    path('searchTicket/',mv.searchTicket , name='searchTicket'),
 
     # 會員資料
     path('lookMember/<int:member_id>/',mv.lookMember, name='lookMember'),

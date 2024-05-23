@@ -2,6 +2,9 @@ from django.shortcuts import get_object_or_404, redirect, render
 from mymovie.models import Member_data, Ticket, Movie, Staff_data, Session
 
 
+def home(request):
+    return render(request, 'base.html')
+
 # Manager
 # 新增電影
 def addMovie(request):
@@ -98,6 +101,61 @@ def showMovie(request, movie_no):
 
 # request.method == "POST" 用於處理需要提交資料並可能修改伺服器狀態的請求(處理表單提交等資料的傳送)
 # request.method == "GET"  用於從伺服器獲取資源的請求，且通常用於獲取較小且不敏感的資料。
+
+
+# 會員購票紀錄
+# views.py
+from django.shortcuts import render
+from .models import Member_data, Session, Ticket, Movie
+
+def search_member_info(member_no):
+    try:
+        # 查找会员信息
+        member = Member_data.objects.get(member_no=member_no)
+
+        # 获取会员的票务信息
+        tickets = Ticket.objects.filter(ticket_member=member)
+
+        # 构建结果字典
+        result = {
+            'member_account': member.member_account,
+            'gmail': member.gmail,
+            'phone_number': member.phone_number,
+            'tickets': [],
+        }
+        # 定义 payment_method 的映射
+        payment_method_display = {
+            'money': '現金',
+            'credit_card': '信用卡'
+        }
+
+        # 遍历票务信息，获取场次、电影名称和支付方式
+        for ticket in tickets:
+            session = Session.objects.get(pk=ticket.session_id_id)
+            movie = session.movie
+            result['tickets'].append({
+                'session': session.session,
+                'movie_name': movie.movie_name,
+                'ticket_amount': ticket.ticket_amount,
+                'payment_method': payment_method_display.get(ticket.payment_method, ticket.payment_method)
+            })
+
+        return result
+
+    except Member_data.DoesNotExist:
+        return None
+
+def searchTicket(request):
+    member_info = None
+    if request.method == 'POST':
+        member_no = request.POST.get('member_no')
+        if member_no:
+            member_info = search_member_info(member_no)
+    
+    return render(request, 'manager_searchTicket.html', {'member_info': member_info})
+
+
+
 
 
 # 會員購票紀錄
