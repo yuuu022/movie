@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block content%}
+<form action="/addSession/" method="post">
+    {% csrf_token %}
+    <label for="movie">電影:</label>
+    <select id="movie" name="movie">
+        {% for movie in movies %}
+            <option value="{{ movie.movie_no }}">{{ movie.movie_name }}</option>
+        {% endfor %}
+    </select>
+    <div>
+        <label for="session">場次： </label>
+        <input type="text" name="session">
+    </div>
+    <input type="submit" class="btn btn-outline-success" value="新增">
+</form>
+{% endblock content %}

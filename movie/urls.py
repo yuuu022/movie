@@ -29,7 +29,8 @@ urlpatterns = [
     # Manager
     # 電影處理
     path('addMovie/',mv.addMovie , name='addMovie'),
-    path('editMovie/<int:movie_id>/', mv.editMovie, name='editMovie'),
+    path('addSession/', mv.addSession, name='addSession'),
+    path('editMovie/<int:movie_no>/', mv.editMovie, name='editMovie'),
     path('deleteMovie/<int:movie_no>/',mv.deleteMovie , name='deleteMovie'),
     path('searchMovie/',mv.searchMovie , name='searchMovie'),
     path('showMovie/<int:movie_no>/',mv.showMovie , name='showMovie'),
@@ -53,9 +54,9 @@ urlpatterns = [
 
 
     # 快速購票
-    path('orderTicket/',mv.orderTicket, name='orderTicket'),
-    path('orderTicketConfirm/',mv.orderTicketConfirm, name='orderTicketConfirm'),
-    path('orderTicketRecord/',mv.orderTicketRecord, name='orderTicketRecord'),
+    # path('orderTicket/',mv.orderTicket, name='orderTicket'),
+    # path('orderTicketConfirm/',mv.orderTicketConfirm, name='orderTicketConfirm'),
+    # path('orderTicketRecord/',mv.orderTicketRecord, name='orderTicketRecord'),
 
     # 會員中心
 

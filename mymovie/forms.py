@@ -4,6 +4,12 @@ from .models import Movie
 
 
 class MovieForm(forms.ModelForm):
+    CHOICES = (
+        ('coming_soon', '即將上映'),
+        ('showing', '現正熱映'),
+        ('removed','下架電影')
+    )
+    status = forms.ChoiceField(choices=CHOICES)
     class Meta:
         model = Movie
         fields = ['date', 'show', 'director', 'actor', 'type', 'length', 'picture', 'change_staff', 'movie_name']

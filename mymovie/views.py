@@ -1,4 +1,4 @@
-from django.shortcuts import redirect, render
+from django.shortcuts import get_object_or_404, redirect, render
 from mymovie.models import Member_data, Ticket, Movie, Staff_data, Session
 
 
@@ -29,10 +29,26 @@ def addMovie(request):
             picture=picture,
             change_staff = staff_data_instance
             )
-        message='電影新增成功'
         return render(request, 'manager_showMovie.html',locals())
     else:
         return render(request, 'manager_addMovie.html',locals())
+    
+# 新增場次
+def addSession(request):
+    if request.method == 'POST':
+        movie = request.POST['movie']
+        session = request.POST['session']
+        
+        movie = get_object_or_404(Movie, movie_no=movie)
+        
+        session = Session(movie=movie, session=session)
+        session.save()
+        
+        return redirect('/')
+    else:
+        movies = Movie.objects.all()  # 獲取所有電影
+        return render(request, 'manager_addSession.html', {'movies': movies})
+
 
 # 刪除電影
 def deleteMovie(request, movie_no):
@@ -45,31 +61,25 @@ def deleteMovie(request, movie_no):
     return redirect('/')
 
 # 編輯電影
-from .forms import MovieForm
-def editMovie(request, movie_id):
-    CHOICES = ('即將上映', '現正熱映','下架電影')
-    if Movie.objects.filter(movie=movie_id).exists():
-        movie_instance = Movie.objects.get(movie=movie_id)
-        if request.method == 'POST':
-            form = MovieForm(request.POST, instance=movie_instance)
-            if form.is_valid():
-                form.save()
-                return redirect('/')
-        else:
-            form = MovieForm(instance=movie_instance)
-        return render(request, 'manager_editMovie.html', {'form': form, 'movie_instance': movie_instance})
+from .forms import MovieForm   
+def editMovie(request, movie_no):
+    movie_instance = get_object_or_404(Movie, movie_no=movie_no)    
+    if request.method == 'POST':
+        form = MovieForm(request.POST, instance=movie_instance)
+        if form.is_valid():
+            form.save()
+            return redirect('/')
     else:
-        return redirect('/')
+        form = MovieForm(instance=movie_instance)
     
-# 顯示電影
-def showMovie(request, movie_no):
-    movie = Movie.objects.get(movie_no=movie_no)
-    ses = Session.objects.filter(movie=movie_no)
-    return render(request, 'manager_showMovie.html', locals())
-
+    context = {
+        'form': form,
+        'movie_instance': movie_instance,
+    }
+    return render(request, 'manager_editMovie.html', context) 
+    
 # 搜尋電影
 from .filters import MovieFilter,MemberFilter
-
 def searchMovie(request):
     movies = Movie.objects.all()
     movieFilter = MovieFilter(queryset=movies)
@@ -80,8 +90,21 @@ def searchMovie(request):
     }
     return render(request, 'manager_searchMovie.html', locals())
 
+# 顯示電影
+def showMovie(request, movie_no):
+    movie = Movie.objects.get(movie_no=movie_no)
+    ses = Session.objects.filter(movie=movie_no)
+    return render(request, 'manager_showMovie.html', locals())
+
 # request.method == "POST" 用於處理需要提交資料並可能修改伺服器狀態的請求(處理表單提交等資料的傳送)
 # request.method == "GET"  用於從伺服器獲取資源的請求，且通常用於獲取較小且不敏感的資料。
+
+
+# 會員購票紀錄
+def ticket_history(request):
+    tickets = Ticket.objects.filter(ticket_member=request.user)
+    return render(request, 'ticket_history.html', {'tickets': tickets})
+
 
 # 會員資料
 def searchMember(request):
@@ -102,7 +125,10 @@ def searchMemberDetails(request):
     context = {
         'memberFilter': memberFilter
     }
-    return render(request, 'manager_searchMemberDetails.html', locals())    
+    return render(request, 'manager_searchMemberDetails.html', locals())   
+
+
+
 #---------------------------------------------------------------------------------------------------------------
 # User
 
