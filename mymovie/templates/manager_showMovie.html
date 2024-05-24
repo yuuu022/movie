@@ -25,8 +25,9 @@
             <a>{{ session.session }}</a>
           {% endfor %}
       </td>
-      <td>{{ movie.picture }}</td>
+      <td><img src="{{ movie.picture }}" height=250px></td>
       <td>{{ movie.get_show_display  }}</td>
+      <td><a href="{% url 'editMovie' movie.movie_no %}">edit</a></td>
     </tr>
   </tbody>
 </table>

@@ -20,7 +20,7 @@ def addMovie(request):
         length = request.POST.get('length')
         picture = request.POST.get('picture')
         staff_data_instance = Staff_data.objects.get(staff_no=1)
-        Movie.objects.create(
+        movie = Movie.objects.create(
             movie_no=movie_no,
             movie_name=movie_name,
             date=date,
@@ -32,7 +32,7 @@ def addMovie(request):
             picture=picture,
             change_staff = staff_data_instance
             )
-        return render(request, 'manager_showMovie.html',locals())
+        return redirect('showMovie', movie_no=movie.movie_no)
     else:
         return render(request, 'manager_addMovie.html',locals())
     
@@ -49,7 +49,7 @@ def addSession(request):
         
         return redirect('/')
     else:
-        movies = Movie.objects.all()  # 獲取所有電影
+        movies = Movie.objects.all()  
         return render(request, 'manager_addSession.html', {'movies': movies})
 
 
@@ -61,7 +61,7 @@ def deleteMovie(request, movie_no):
             movie.delete()
         except:
             pass
-    return redirect('/')
+    return redirect('searchMovie')
 
 # 編輯電影
 from .forms import MovieForm   
@@ -71,7 +71,7 @@ def editMovie(request, movie_no):
         form = MovieForm(request.POST, instance=movie_instance)
         if form.is_valid():
             form.save()
-            return redirect('/')
+            return redirect('showMovie', movie_no=movie_instance.movie_no)
     else:
         form = MovieForm(instance=movie_instance)
     
@@ -85,13 +85,11 @@ def editMovie(request, movie_no):
 from .filters import MovieFilter,MemberFilter
 def searchMovie(request):
     movies = Movie.objects.all()
-    movieFilter = MovieFilter(queryset=movies)
-    if request.method == "POST":
-        movieFilter = MovieFilter(request.POST, queryset=movies)
+    movieFilter = MovieFilter(request.GET, queryset=movies)
     context = {
         'movieFilter': movieFilter
     }
-    return render(request, 'manager_searchMovie.html', locals())
+    return render(request, 'manager_searchMovie.html', context)
 
 # 顯示電影
 def showMovie(request, movie_no):
@@ -104,32 +102,24 @@ def showMovie(request, movie_no):
 
 
 # 會員購票紀錄
-# views.py
-from django.shortcuts import render
-from .models import Member_data, Session, Ticket, Movie
-
 def search_member_info(member_no):
     try:
-        # 查找会员信息
+        # 查會員信息
         member = Member_data.objects.get(member_no=member_no)
-
-        # 获取会员的票务信息
+        # 會員的訂票
         tickets = Ticket.objects.filter(ticket_member=member)
-
-        # 构建结果字典
+        # 字典
         result = {
             'member_account': member.member_account,
             'gmail': member.gmail,
             'phone_number': member.phone_number,
             'tickets': [],
         }
-        # 定义 payment_method 的映射
+        # 定義 payment_method 
         payment_method_display = {
             'money': '現金',
             'credit_card': '信用卡'
         }
-
-        # 遍历票务信息，获取场次、电影名称和支付方式
         for ticket in tickets:
             session = Session.objects.get(pk=ticket.session_id_id)
             movie = session.movie
@@ -139,9 +129,7 @@ def search_member_info(member_no):
                 'ticket_amount': ticket.ticket_amount,
                 'payment_method': payment_method_display.get(ticket.payment_method, ticket.payment_method)
             })
-
         return result
-
     except Member_data.DoesNotExist:
         return None
 
@@ -153,16 +141,6 @@ def searchTicket(request):
             member_info = search_member_info(member_no)
     
     return render(request, 'manager_searchTicket.html', {'member_info': member_info})
-
-
-
-
-
-# 會員購票紀錄
-def ticket_history(request):
-    tickets = Ticket.objects.filter(ticket_member=request.user)
-    return render(request, 'ticket_history.html', {'tickets': tickets})
-
 
 # 會員資料
 def searchMember(request):
@@ -197,17 +175,30 @@ def searchMemberDetails(request):
 
 
 
-# 會員資訊****
-from django.http import Http404
+# 查看會員資訊
+from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 @login_required
-def lookMember(request, member_id):
-    try:
-        member = Member_data.objects.get(member_no=member_id)
-    except Member_data.DoesNotExist:
-        raise Http404("Member does not exist")
-    
-    if member.member_account != request.user:  
-        raise Http404("You are not authorized to view this member")
-    context = {'lookMember': member}
-    return render(request, 'user_lookMember_user.html', locals())
+def login_view(request):
+    if request.method == 'POST':
+        member_account = request.POST['member_account']
+        member_password = request.POST['member_password']
+        user = authenticate(request, username=member_account, password=member_password)
+        if user is not None:
+            login(request, user)
+            return redirect('user_lookMember')
+        else:
+            return render(request, 'login.html', {'error': 'Invalid login credentials'})
+    else:
+        return render(request, 'login.html')
+
+@login_required
+def lookMember(request):
+    member = Member_data.objects.get(member_account=request.user.username)
+    return render(request, 'user_lookMember.html', {'member': member})
+
+# 編輯會員
+
+
+
+

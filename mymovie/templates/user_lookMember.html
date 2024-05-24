@@ -1,13 +1,7 @@
-{% extends 'base.html' %}
-
 {% block content %}
-<form action="lookMember/{{ member.member_id }}" method="post">
-
-
-<div>
-    {{member.account}}
-</div>
-
-</form>
-
-{% endblock content %}
+    <h2>Member Details</h2>
+    <p>Member No: {{ member.member_no }}</p>
+    <p>Account: {{ member.member_account }}</p>
+    <p>Email: {{ member.gmail }}</p>
+    <p>Phone Number: {{ member.phone_number }}</p>
+{% endblock %}

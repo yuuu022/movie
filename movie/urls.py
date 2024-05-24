@@ -34,7 +34,7 @@ urlpatterns = [
     path('editMovie/<int:movie_no>/', mv.editMovie, name='editMovie'),
     path('deleteMovie/<int:movie_no>/',mv.deleteMovie , name='deleteMovie'),
     path('searchMovie/',mv.searchMovie , name='searchMovie'),
-    path('showMovie/<int:movie_no>/',mv.showMovie , name='showMovie'),
+    path('searchMovie/<int:movie_no>/',mv.showMovie , name='showMovie'),
     # path('/',mv. , name=''),
 
 
@@ -42,7 +42,6 @@ urlpatterns = [
     path('searchTicket/',mv.searchTicket , name='searchTicket'),
 
     # 會員資料
-    path('lookMember/<int:member_id>/',mv.lookMember, name='lookMember'),
     path('searchMember/',mv.searchMember, name='searchMember'),
     path('searchMemberDetails/',mv.searchMemberDetails, name='searchMemberDetails'),
     
@@ -60,6 +59,6 @@ urlpatterns = [
     # path('orderTicketRecord/',mv.orderTicketRecord, name='orderTicketRecord'),
 
     # 會員中心
-
+    path('user_lookMember/', mv.lookMember, name='user_lookMember'),
 
 ]

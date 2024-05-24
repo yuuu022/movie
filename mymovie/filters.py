@@ -3,22 +3,35 @@ import django_filters
 from django import forms
 
 class MovieFilter(django_filters.FilterSet):
-    movie_name = django_filters.CharFilter(
-        field_name='movie_name',
-        lookup_expr='icontains',
-        widget=forms.TextInput(attrs={'class': 'form-control'}))
-    date = django_filters.CharFilter(
-        field_name='date',
-        lookup_expr='icontains',
-        widget=forms.TextInput(attrs={'class': 'form-control'}))
-    type= django_filters.CharFilter(
-        field_name='type',
-        lookup_expr='icontains',
-        widget=forms.TextInput(attrs={'class': 'form-control'}))
+    search_type = django_filters.ChoiceFilter(
+        choices=[
+            ('movie_name', 'Movie Name'),
+            ('date', 'Date'),
+            ('type', 'Type')
+        ],
+        empty_label='請選擇',
+        method='filter_by_type',
+        widget=forms.Select(attrs={'class': 'form-control'})
+    )
+    search_text = django_filters.CharFilter(
+        field_name='search_text',
+        label='Search',
+        method='filter_by_type',
+        widget=forms.TextInput(attrs={'class': 'form-control'})
+    )
 
     class Meta:
         model = Movie
-        fields = '__all__'
+        fields = []
+
+    def filter_by_type(self, queryset, name, value):
+        search_type = self.data.get('search_type')
+        search_text = self.data.get('search_text')
+        if search_type and search_text:
+            filter_kwargs = {f"{search_type}__icontains": search_text}
+            return queryset.filter(**filter_kwargs)
+        return queryset
+
 
 
 class MemberFilter(django_filters.FilterSet):
