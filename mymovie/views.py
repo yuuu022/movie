@@ -1,7 +1,7 @@
 from django.shortcuts import get_object_or_404, redirect, render
 from mymovie.models import Member_data, Ticket, Movie, Staff_data, Session
 
-
+# 首頁
 def home(request):
     return render(request, 'base.html')
 
@@ -32,26 +32,22 @@ def addMovie(request):
             picture=picture,
             change_staff = staff_data_instance
             )
-        return redirect('showMovie', movie_no=movie.movie_no)
+        return redirect('addSession')
     else:
         return render(request, 'manager_addMovie.html',locals())
     
 # 新增場次
 def addSession(request):
     if request.method == 'POST':
-        movie = request.POST['movie']
-        session = request.POST['session']
-        
-        movie = get_object_or_404(Movie, movie_no=movie)
-        
-        session = Session(movie=movie, session=session)
+        movie_id = request.POST['movie']
+        session_desc = request.POST['session']
+        movie = get_object_or_404(Movie, pk=movie_id)
+        session = Session(movie=movie, session=session_desc)
         session.save()
-        
-        return redirect('/')
+        return redirect('showMovie', movie_no=movie.pk)
     else:
-        movies = Movie.objects.all()  
+        movies = Movie.objects.all()
         return render(request, 'manager_addSession.html', {'movies': movies})
-
 
 # 刪除電影
 def deleteMovie(request, movie_no):
@@ -74,7 +70,6 @@ def editMovie(request, movie_no):
             return redirect('showMovie', movie_no=movie_instance.movie_no)
     else:
         form = MovieForm(instance=movie_instance)
-    
     context = {
         'form': form,
         'movie_instance': movie_instance,
@@ -96,15 +91,12 @@ def showMovie(request, movie_no):
     movie = Movie.objects.get(movie_no=movie_no)
     ses = Session.objects.filter(movie=movie_no)
     return render(request, 'manager_showMovie.html', locals())
-
 # request.method == "POST" 用於處理需要提交資料並可能修改伺服器狀態的請求(處理表單提交等資料的傳送)
 # request.method == "GET"  用於從伺服器獲取資源的請求，且通常用於獲取較小且不敏感的資料。
-
 
 # 會員購票紀錄
 def search_member_info(member_no):
     try:
-        # 查會員信息
         member = Member_data.objects.get(member_no=member_no)
         # 會員的訂票
         tickets = Ticket.objects.filter(ticket_member=member)
@@ -139,7 +131,6 @@ def searchTicket(request):
         member_no = request.POST.get('member_no')
         if member_no:
             member_info = search_member_info(member_no)
-    
     return render(request, 'manager_searchTicket.html', {'member_info': member_info})
 
 # 會員資料

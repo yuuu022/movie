@@ -35,8 +35,6 @@ urlpatterns = [
     path('deleteMovie/<int:movie_no>/',mv.deleteMovie , name='deleteMovie'),
     path('searchMovie/',mv.searchMovie , name='searchMovie'),
     path('searchMovie/<int:movie_no>/',mv.showMovie , name='showMovie'),
-    # path('/',mv. , name=''),
-
 
     # 會員購票紀錄
     path('searchTicket/',mv.searchTicket , name='searchTicket'),
@@ -60,5 +58,5 @@ urlpatterns = [
 
     # 會員中心
     path('user_lookMember/', mv.lookMember, name='user_lookMember'),
-
+    # path('/',mv. , name=''),
 ]

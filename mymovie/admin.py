@@ -8,10 +8,15 @@ class MemberAdmin(admin.ModelAdmin):
 class TicketAdmin(admin.ModelAdmin):
     list_display = ('ticket_no','ticket_member','session_id','ticket_amount','payment_method')
 
+class SessionInline(admin.TabularInline):
+    model = Session
+    extra = 1
+    
 class SessionAdmin(admin.ModelAdmin):
     list_display = ('session_no','movie','session')
 
 class MovieAdmin(admin.ModelAdmin):
+    inlines = [SessionInline]
     list_display = ('movie_no','movie_name','date','show','director','actor','type','length','change_staff')
 
 class StaffAdmin(admin.ModelAdmin):

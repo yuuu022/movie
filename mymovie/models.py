@@ -25,7 +25,7 @@ class Session(models.Model):
     session = models.CharField(max_length=200)
 
     def __str__(self):
-        return self.session
+        return f"{self.movie.movie_name} - {self.session}"
 #----------------------------------------------------------------------------------------------------------------------
 # 訂票紀錄
 class Ticket(models.Model):
