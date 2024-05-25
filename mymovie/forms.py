@@ -1,6 +1,6 @@
 
 from django import forms
-from .models import Movie
+from .models import Movie, Member_data
 
 
 class MovieForm(forms.ModelForm):
@@ -12,6 +12,12 @@ class MovieForm(forms.ModelForm):
     class Meta:
         model = Movie
         fields = ['date', 'show', 'director', 'actor', 'type', 'length', 'picture', 'movie_name']
+
+class MemberEditForm(forms.ModelForm):
+    class Meta:
+        model = Member_data
+        fields = ['member_password','gmail','phone_number']
+
 
 
 class MemberSearchForm(forms.Form):

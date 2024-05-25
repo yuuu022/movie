@@ -1,5 +1,5 @@
 from django.shortcuts import get_object_or_404, redirect, render
-from mymovie.models import Member_data, Ticket, Movie, Staff_data, Session
+from .models import Member_data, Ticket, Movie, Staff_data, Session
 
 # 首頁
 def home(request):
@@ -179,7 +179,7 @@ def login_view(request):
             login(request, user)
             return redirect('user_lookMember')
         else:
-            return render(request, 'login.html', {'error': 'Invalid login credentials'})
+            return render(request, 'login.html', locals())
     else:
         return render(request, 'login.html')
 
@@ -189,7 +189,21 @@ def lookMember(request):
     return render(request, 'user_lookMember.html', {'member': member})
 
 # 編輯會員
-
+from .forms import MemberEditForm
+def editMember(request, member_no):
+    member = get_object_or_404(Member_data, member_no=member_no)
+    if request.method == 'POST':
+        form = MemberEditForm(request.POST, instance=member)
+        if form.is_valid():
+            form.save()
+            return redirect('')
+    else:
+        form=MemberEditForm(instance=member)
+    context = {
+        'form': form,
+        'member':member,
+    }
+    return render(request, 'user_lookMember.html',context)
 
 
 
