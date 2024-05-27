@@ -1,0 +1,51 @@
+/* header.css */
+body, html {
+    height: 100%;
+    margin: 0;
+}
+
+.head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #D5DDE2;
+    padding: 10px 20px;
+    border-bottom: 1px solid black; /* 添加底部邊框 */
+}
+
+.head img {
+    height: 40px;
+    flex: 0; /* 使圖片占一等分 */
+}
+
+.head p {
+    flex: 1;
+    text-align: center;
+    margin: 0;
+    padding: 10px;
+    font-size: 16px;
+    border-left: 1px solid black; /* 添加左邊黑線 */
+}
+
+.head p:first-child {
+    border-left: none; /* 移除第一個元素的左邊黑線 */
+}
+
+.head p:hover {
+    background-color: #e9ecef;
+    cursor: pointer;
+}
+
+.main-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    height: calc(100% - 60px); /* 減去導航欄的高度 */
+    background-color: #E7E7E7;
+}
+
+.main-content p {
+    font-size: 24px;
+    margin: 0;
+}
