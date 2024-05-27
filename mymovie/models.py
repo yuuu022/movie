@@ -13,7 +13,17 @@ class Member_data(models.Model):
     member_password = models.CharField(max_length=10)
     gmail = models.EmailField()
     phone_number = models.CharField(max_length=15)
-
+    
+    @classmethod
+    def create_member_data(cls, member_account, member_password, gmail, phone_number):
+        member = cls(
+            member_account=member_account,
+            member_password=member_password,
+            gmail=gmail,
+            phone_number=phone_number,
+        )
+        return member
+    
     def __str__(self):
         return self.member_account
 # 在 Django 管理介面中查看Member_data時，以 member_account 的值作為 Member_data 的字串表示形式，而不是預設的模型名稱和物件ID。

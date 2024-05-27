@@ -16,10 +16,25 @@ class MovieForm(forms.ModelForm):
 class MemberEditForm(forms.ModelForm):
     class Meta:
         model = Member_data
-        fields = ['member_password','gmail','phone_number']
-
-
+        fields = ['gmail','phone_number']
 
 class MemberSearchForm(forms.Form):
     member_id = forms.CharField(label='會員编號', max_length=100)
+
+class MemberRegisterForm(forms.Form):
+    member_id = forms.CharField(label='您的帳號', max_length=50)
+    member_pw = forms.CharField(label='輸入密碼', widget=forms.PasswordInput)
+    member_pwc = forms.CharField(label='輸入確認密碼', widget=forms.PasswordInput)
+    member_mail = forms.EmailField(label='電子信箱')
+    member_phone = forms.CharField(label='手機號碼', max_length=15)  
+
+class MemberLoginForm(forms.Form):
+    member_id = forms.CharField(label='您的帳號', max_length=50)
+    member_pw = forms.CharField(label='輸入密碼', widget=forms.PasswordInput)
+
+
+class MemberForgetForm(forms.Form):
+    member_id = forms.CharField(label='您的帳號', max_length=50)
+    member_pw = forms.CharField(label='新密碼', widget=forms.PasswordInput)
+    member_cpw = forms.CharField(label='確認新密碼', widget=forms.PasswordInput)
 

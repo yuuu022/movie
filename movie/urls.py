@@ -23,8 +23,11 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', mv.home, name='home'),
     # 註冊、登入、忘記密碼
-    # path('/',mv. , name=''),
-
+    path('registerMember/',mv.registerMember, name='registerMember'),
+    path('loginMember/',mv.loginMember, name='loginMember'),
+    path('forgetMember/',mv.forgetMember, name='forgetMember'),
+    path('logout/',mv.logout_view, name='logout'),
+    path('lookMember/',mv.lookMember, name='lookMember'),
 
     #-----------------------------------------------------------
     # Manager
@@ -57,6 +60,7 @@ urlpatterns = [
     # path('orderTicketRecord/',mv.orderTicketRecord, name='orderTicketRecord'),
 
     # 會員中心
-    path('user_lookMember/', mv.lookMember, name='user_lookMember'),
+    path('lookMember/', mv.lookMember, name='lookMember'),
+    path('editMember/', mv.editMember, name='editMember'),
     # path('/',mv. , name=''),
 ]

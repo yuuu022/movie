@@ -1,7 +1,13 @@
-{% block content %}
-    <h2>Member Details</h2>
-    <p>Member No: {{ member.member_no }}</p>
-    <p>Account: {{ member.member_account }}</p>
-    <p>Email: {{ member.gmail }}</p>
-    <p>Phone Number: {{ member.phone_number }}</p>
+{% extends 'base.html' %}
+{% block title%}
+Member Details
+{% endblock %}
+
+{% block content%}
+    <h1>Member Details</h1>
+    <p><strong>Account:</strong> {{ member.member_account }}</p>
+    <p><strong>Email:</strong> {{ member.gmail }}</p>
+    <p><strong>Phone Number:</strong> {{ member.phone_number }}</p>
+    <a href="{% url 'editMember' %}">Edit</a>
+    <a href="{% url 'logout' %}">Logout</a>
 {% endblock %}

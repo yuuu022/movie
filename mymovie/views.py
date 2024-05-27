@@ -183,27 +183,133 @@ def login_view(request):
     else:
         return render(request, 'login.html')
 
-@login_required
 def lookMember(request):
-    member = Member_data.objects.get(member_account=request.user.username)
-    return render(request, 'user_lookMember.html', {'member': member})
+    try:
+        member_id = request.session.get('member_id')
+        if not member_id:
+            return redirect('/loginMember/')
+        
+        member = Member_data.objects.get(member_account=member_id)
+        return render(request, 'user_lookMember.html', {'member': member})
+    except Member_data.DoesNotExist:
+        return redirect('/loginMember/')
 
 # 編輯會員
+from django.contrib.auth.decorators import login_required
 from .forms import MemberEditForm
-def editMember(request, member_no):
-    member = get_object_or_404(Member_data, member_no=member_no)
+
+
+def editMember(request):
+    member_id = request.session.get('member_id')
+    if not member_id:
+        return redirect('/loginMember/')
+    
+    try:
+        member = Member_data.objects.get(member_account=member_id)
+    except Member_data.DoesNotExist:
+        return redirect('/loginMember/')
+    
     if request.method == 'POST':
         form = MemberEditForm(request.POST, instance=member)
         if form.is_valid():
             form.save()
-            return redirect('')
+            return redirect('/lookMember/')
     else:
-        form=MemberEditForm(instance=member)
-    context = {
-        'form': form,
-        'member':member,
-    }
-    return render(request, 'user_lookMember.html',context)
+        form = MemberEditForm(instance=member)
+    
+    return render(request, 'user_editMember.html', {'form': form})
 
 
 
+from .forms import MemberRegisterForm, MemberLoginForm
+from django.contrib.auth.hashers import make_password
+
+def registerMember(request):
+    if request.method == 'POST':
+        register_form = MemberRegisterForm(request.POST)
+        if register_form.is_valid():
+            member_id = register_form.cleaned_data['member_id'].strip()
+            member_pw = register_form.cleaned_data['member_pw']
+            member_pwc = register_form.cleaned_data['member_pwc']
+            member_mail = register_form.cleaned_data['member_mail']
+            member_phone = register_form.cleaned_data['member_phone']
+            
+            if member_pw == member_pwc:
+                if not Member_data.objects.filter(member_account=member_id).exists():
+                    pw = make_password(member_pw)
+                    member = Member_data.create_member_data(member_id, pw, member_mail, member_phone)
+                    member.save()
+                    message = "註冊成功! 請點選「返回登入」進行登入"
+                else:
+                    message = "帳號已經存在"
+            else:
+                message = "密碼不一致"
+        else:
+            message = "請檢查輸入的欄位內容"
+    else:
+        register_form = MemberRegisterForm()
+    return render(request, 'user_register.html', locals())
+
+from django.contrib.auth import authenticate, login
+from django.contrib.auth.hashers import check_password
+
+def loginMember(request):
+    if request.method == 'GET':
+        form = MemberLoginForm()
+        return render(request, 'user_login.html', {'form': form})
+        
+    elif request.method == 'POST':
+        form = MemberLoginForm(request.POST)
+        if form.is_valid():
+            member_id = form.cleaned_data['member_id'].strip()
+            member_pw = form.cleaned_data['member_pw']
+            print(f'member_id:{member_id}, password: {member_pw}')
+            try:
+                member = Member_data.objects.get(member_account=member_id)
+                if check_password(member_pw, member.member_password):
+                    request.session['member_id'] = member_id
+                    message = '成功登入了'
+                    return redirect('/lookMember/')
+                else:
+                    message = '登入失敗'
+            except Member_data.DoesNotExist:
+                message = '登入失敗'
+        else:
+            message = '表單內容有誤'
+        return render(request, 'user_login.html', {'form': form, 'message': message})
+    else:
+        message = '錯誤的請求方法'
+    return render(request, 'user_login.html', {'form': form, 'message': message})
+
+
+from .forms import MemberForgetForm
+
+def forgetMember(request):
+    if request.method == 'POST':
+        form = MemberForgetForm(request.POST)
+        if form.is_valid():
+            member_id = form.cleaned_data['member_id'].strip()
+            member_pw = form.cleaned_data['member_pw']
+            member_cpw = form.cleaned_data['member_cpw']
+            if member_pw == member_cpw:
+                try:
+                    member = Member_data.objects.get(member_account=member_id)
+                    member.member_password = make_password(member_pw)
+                    member.save()
+                    return redirect('/loginMember/')
+                except Member_data.DoesNotExist:
+                    message = "帳號不存在"
+            else:
+                message = "新密碼與確認新密碼不一致"
+        else:
+            message = "表單內容有誤"
+        return render(request, 'user_forget.html', {'form': form, 'message': message})
+    else:
+        form = MemberForgetForm()
+    return render(request, 'user_forget.html', {'form': form})
+
+
+from django.contrib.auth import logout
+def logout_view(request):
+    logout(request)
+    return redirect('/loginMember/')

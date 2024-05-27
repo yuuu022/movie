@@ -1,0 +1,29 @@
+
+{% extends "user_relogBase.html" %}
+{% block title %} 忘記密碼 {% endblock title %} 
+{% block headmessage %} 
+<a style='font-family:標楷體; font-size: 19pt'> 忘記密碼 </a>
+{% endblock %}
+{% block content %}
+{% if message %}
+<div class="alert alert-danger">
+  {{ message }}
+</div>
+{% endif %}
+<form action="" method="POST">
+  {% csrf_token %}
+  <div id="login-form" class="form-inline">
+    <label for='member_id'>帳號：</label>
+    <input type="text" name="member_id" id="member_id" placeholder="請輸入您的帳號" class="form-control" />
+    <br/>
+    <label for='member_pw'>新密碼：</label>
+    <input type="password" name="member_pw" id="member_pw" placeholder="請輸入您的新密碼" class="form-control" />
+    <br/>
+    <label for='member_cpw'>確認新密碼：</label>
+    <input type="password" name="member_cpw" id="member_cpw" placeholder="請輸入您的新密碼" class="form-control" />
+    <br/>
+    <input type="submit" color="E1E8FB" style = "background-color:#E1E8FB" value="修改密碼">
+  </div>
+</form>
+{% endblock %}
+

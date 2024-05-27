@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block title%}
+編輯會員資料
+{% endblock %}
+
+{% block content%}
+<h1>編輯會員資料</h1>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">儲存更改</button>
+</form>
+{% endblock %}
+
