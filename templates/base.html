@@ -13,9 +13,11 @@
 <body>
     <div class="container-fluid" >
         {% include 'header.html' %}
-
+        <div class="main-content" style="text-align:center">
+           {% block headmessage %} {% endblock %}
+        </div>
         <div>
-            {% block headmessage %} {% endblock %}
+           
         </div>
         <div>
             {% block content %} {% endblock %}

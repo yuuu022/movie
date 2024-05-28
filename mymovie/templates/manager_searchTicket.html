@@ -1,13 +1,11 @@
-<!-- templates/search_ticket.html -->
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Search Ticket</title>
-</head>
-<body>
-    <h1>會員購票紀錄</h1>
+{% extends 'base2.html' %}
+{% block headmessage %}
+<div class="main-content" style="text-align:center; align-items:center; justify-content: center; display: flex;">
+   <p style="font-size: 30px;margin: 0; height: 70px;text-align: center; display: flex;align-items: center; ">會員購票紀錄</p>
+</div>
+{% endblock %}
+{% block content %}
+
     <form method="POST" action="{% url 'searchTicket' %}">
         {% csrf_token %}
         <strong for="member_no">會員編號:</strong>
@@ -30,5 +28,4 @@
     {% elif member_info is not None %}
         <p>No member found with the provided member number.</p>
     {% endif %}
-</body>
-</html>
+    {% endblock %}
