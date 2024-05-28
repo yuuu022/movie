@@ -1,4 +1,4 @@
-{% extends "user_relogBase.html" %}
+{% extends 'base.html' %}
 {% block title %} 登入會員 {% endblock title %} 
 {% block headmessage %} 
 <a style='font-family:標楷體; font-size: 19pt'> 登入會員 </a>
@@ -10,18 +10,17 @@
 </div>
 {% endif %}
 <form action="" method="post">
-  {% csrf_token %}
-  <div id="login-form" class="form-inline">
-    <label for='member_id' class="account">帳號：</label>
-    <input type="text" name="member_id" id="member_id" placeholder="請輸入您的帳號" class="form-control" />
-    <br/>
-    <label for='member_pw'>密碼：</label>
-    <input type="password" name="member_pw" id="member_pw" placeholder="請輸入您的密碼" class="form-control" />
-    <br/>
-    <input type="submit" color="E1E8FB" style="background-color:#E1E8FB" value="登入" class="btn btn-primary">
-    <a style="font-size: 8pt; color: blue; text-decoration: underline;" href="/registerMember/">還沒註冊嗎~馬上申請</a>
-    <a style="font-size: 8pt; color: blue;" href="/forgetMember/">忘記密碼</a>
-  </div>
+  {% csrf_token %} 
+  <label for='member_id'>帳號：</label>
+  <input id='member_id' type='text' style = "background-color:#EFE9E9" name='member_id'>
+  <br/>
+  <label for='member_pw'>密碼：</label>
+  <input id='member_pw' type='password' style = "background-color:#EFE9E9" name='member_pw'>
+  <br/>
+  <input type="submit" color="E1E8FB" style = "background-color:#E1E8FB" value="登入">
+  <br/>
+  <a style="font-size: 12px; color: blue; text-decoration: underline;" type='button' onclick='location.href="/registerMember/"'>還沒註冊嗎~馬上申請</a>
+  <a style="font-size: 8pt; color: blue; " type='button' onclick='location.href="/forgetMember/"'>忘記密碼</a>
 </form>
 <script>
 var inputs = document.querySelectorAll('#login-form input');
