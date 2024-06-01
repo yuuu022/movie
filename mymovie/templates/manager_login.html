@@ -1,40 +1,10 @@
-{% extends 'base.html' %}
-{% block title %} 登入會員 {% endblock title %} 
-{% block headmessage %} 
-<a style='font-family:微軟正黑體; font-size: 19pt'> 登入會員 </a>
-{% endblock %}
-{% block content %}
-{% if message %}
-  <div class="alert alert-warning">{{ message }}</div>
-{% endif %}
-<form action="" method="post">
-  {% csrf_token %} 
-  <label for='member_id'>帳號：</label>
-  <input id='member_id' type='text' style = "background-color:#EFE9E9" name='member_id'>
-  <br/>
-  <label for='member_pw'>密碼：</label>
-  <input id='member_pw' type='password' style = "background-color:#EFE9E9" name='member_pw'>
-  <br/>
-  <input type="submit" color="E1E8FB" style = "background-color:#E1E8FB" value="登入">
-  <br/>
-  <a style="font-size: 12px; color: blue; text-decoration: underline;" type='button' onclick='location.href="/registerMember/"'>還沒註冊嗎~馬上申請</a>
-  <a style="font-size: 8pt; color: blue; " type='button' onclick='location.href="/forgetMember/"'>忘記密碼</a>
-</form>
-<script>
-var inputs = document.querySelectorAll('#login-form input');
-inputs.forEach(function(item) {
-  item.classList.add('form-control');
-});
-</script>
-{% endblock %}
-
-{% comment %} <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>員工登入</title>
-    <link rel="stylesheet" href="" />
+    <link rel="stylesheet" href="/s"/>
 </head>
 <body>
     <header>
@@ -71,4 +41,33 @@ inputs.forEach(function(item) {
         </section>
     </main>
 </body>
-</html> {% endcomment %}
+</html>
+{% comment %} {% extends 'base.html' %}
+{% block title %} 員工登入 {% endblock title %} 
+{% block headmessage %} 
+<a style='font-family:微軟正黑體; font-size: 19pt'> 員工登入 </a>
+{% endblock %}
+{% block content %}
+{% if message %}
+<div class="alert alert-warning">{{ message }}</div>
+{% endif %}
+<form action="" method="post">
+  {% csrf_token %} 
+  <label for='manager_id'>帳號：</label>
+  <input id='manager_id' type='text' style = "background-color:#EFE9E9" name='manager_id'>
+  <br/>
+  <label for='manager_pw'>密碼：</label>
+  <input id='manager_pw' type='password' style = "background-color:#EFE9E9" name='manager_pw'>
+  <br/>
+  <input type="submit" color="E1E8FB" style = "background-color:#E1E8FB" value="登入">
+  <br/>
+  <a style="font-size: 12px; color: blue; text-decoration: underline;" type='button' onclick='location.href="/registerManager/"'>還沒註冊嗎~馬上申請</a>
+  <a style="font-size: 8pt; color: blue; " type='button' onclick='location.href="/forgetManager/"'>忘記密碼</a>
+</form>
+<script>
+var inputs = document.querySelectorAll('#login-form input');
+inputs.forEach(function(item) {
+  item.classList.add('form-control');
+});
+</script>
+{% endblock %} {% endcomment %}

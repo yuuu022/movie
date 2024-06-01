@@ -22,12 +22,6 @@ from mymovie import views as mv
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', mv.home, name='home'),
-    # 註冊、登入、忘記密碼
-    path('registerMember/',mv.registerMember, name='registerMember'),
-    path('loginMember/',mv.loginMember, name='loginMember'),
-    path('forgetMember/',mv.forgetMember, name='forgetMember'),
-    path('logout/',mv.logout_view, name='logout'),
-    path('lookMember/',mv.lookMember, name='lookMember'),
 
     #-----------------------------------------------------------
     # Manager
@@ -45,15 +39,21 @@ urlpatterns = [
     # 會員資料
     path('searchMember/',mv.searchMember, name='searchMember'),
     path('searchMemberDetails/',mv.searchMemberDetails, name='searchMemberDetails'),
-    
-   #登入註冊忘記密碼
-    path('registerMember/',mv.registerMember, name='registerMember'),
-    path('loginMember/',mv.loginMember, name='loginMember'),
-    path('forgetMember/',mv.forgetMember, name='forgetMember'),
 
+    #會員登入註冊忘記密碼
+    path('registerManager/', mv.registerManager, name='registerManager'),
+    path('loginManager/', mv.loginManager, name='loginManager'),
+    path('forgetManager/', mv.forgetManager, name='forgetManager'),
 
     #-----------------------------------------------------------
     # User
+    # 註冊、登入、忘記密碼、登出
+    path('registerMember/',mv.registerMember, name='registerMember'),
+    path('loginMember/',mv.loginMember, name='loginMember'),
+    path('forgetMember/',mv.forgetMember, name='forgetMember'),
+    path('logout/',mv.logout_view, name='logout'),
+    path('lookMember/',mv.lookMember, name='lookMember'),
+
     # 電影資訊
 	# path('movieInformation/',mv.movieInformation, name='movieInformation'),
 

@@ -76,8 +76,18 @@ class Staff_data(models.Model):
         ('hr', '人事部門')
     )
     staff_no = models.AutoField(primary_key=True)
+    staff_account = models.CharField(max_length=25 , unique=True)
     staff_password = models.CharField(max_length=200)
-    staff_name = models.CharField(max_length=200)
     staff_department = models.CharField(max_length=200, choices=CHOICES)
+
+    @classmethod
+    def create_manager_data(cls, staff_account, staff_password, staff_department):
+        member = cls(
+            staff_account=staff_account,
+            staff_password=staff_password,
+            staff_department=staff_department,
+        )
+        return member
+    
     def __str__(self):
         return self.staff_name

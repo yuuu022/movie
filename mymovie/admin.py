@@ -20,7 +20,7 @@ class MovieAdmin(admin.ModelAdmin):
     list_display = ('movie_no','movie_name','date','show','director','actor','type','length','change_staff')
 
 class StaffAdmin(admin.ModelAdmin):
-    list_display = ('staff_no','staff_password','staff_name','staff_department')
+    list_display = ('staff_no','staff_account','staff_password','staff_department')
 
 
 

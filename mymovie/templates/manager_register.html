@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block title %} 註冊會員 {% endblock title %}
+{% block title %} 員工註冊 {% endblock title %}
 {% block headmessage %} 
 <a style='font-family:微軟正黑體; font-size: 19pt'> 註冊會員 </a>
 {% endblock %}
@@ -9,22 +9,24 @@
 {% endif %}
 <form action="" method="post">
     {% csrf_token %}
-    <label for='member_id'>帳號：</label>
-    <input id='member_id' type='text' name='member_id' required>
+    <label for='manager_id'>員工編號：</label>
+    <input id='manager_id' type='text' name='manager_id' required>
     <br/>
-    <label for='member_pw'>密碼：</label>
-    <input id='member_pw' type='password' name='member_pw'>
+    <label for='manager_department'>部門：</label>
+    <select name='manager_department'>
+        {% for key, value in CHOICES %}
+        <option value="{{ key }}">{{ value }}</option>
+        {% endfor %}
+    </select>
     <br/>
-    <label for='member_pwc'>確認密碼：</label>
-    <input id='member_pwc' type='password' name='member_pwc'>
+    <label for='manager_pw'>密碼：</label>
+    <input id='manager_pw' type='password' name='manager_pw'>
     <br/>
     <a style='font-size:12px'>6-20位英數混合，英文區分大小寫</a>
     <br/>
-    <label for='member_mail'>電子信箱</label>
-    <input id='member_mail' type='text' name='member_mail'>
+    <label for='manager_pwc'>確認密碼：</label>
+    <input id='manager_pwc' type='password' name='manager_pwc'>
     <br/>
-    <label for='member_phone'>手機號碼</label>
-    <input id='member_phone' type='tel' name='member_phone'>
     <br/>
     <input type='submit' name='submit' value='註冊'>
 </form>
